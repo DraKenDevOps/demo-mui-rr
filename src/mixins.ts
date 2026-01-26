@@ -1,32 +1,27 @@
 import type { Theme } from "@mui/material/styles";
 
-export function getDrawerSxTransitionMixin(
-  isExpanded: boolean,
-  property: string,
-) {
-  return {
-    transition: (theme: Theme) =>
-      theme.transitions.create(property, {
-        easing: theme.transitions.easing.sharp,
-        duration: isExpanded
-          ? theme.transitions.duration.enteringScreen
-          : theme.transitions.duration.leavingScreen,
-      }),
-  };
+export function getDrawerSxTransitionMixin(isExpanded: boolean, property: string) {
+    return {
+        transition: (theme: Theme) =>
+            theme.transitions.create(property, {
+                easing: theme.transitions.easing.sharp,
+                duration: isExpanded ? theme.transitions.duration.enteringScreen : theme.transitions.duration.leavingScreen
+            })
+    };
 }
 
 export function getDrawerWidthTransitionMixin(isExpanded: boolean) {
-  return {
-    ...getDrawerSxTransitionMixin(isExpanded, "width"),
-    overflowX: "hidden",
-  };
+    return {
+        ...getDrawerSxTransitionMixin(isExpanded, "width"),
+        overflowX: "hidden"
+    };
 }
 
-declare module '@mui/material/styles' {
-  interface Theme {
-    getColorSchemeSelector: (selector: 'light' | 'dark') => string;
-  }
-  interface ThemeOptions {
-    getColorSchemeSelector?: (selector: 'light' | 'dark') => string;
-  }
+declare module "@mui/material/styles" {
+    interface Theme {
+        getColorSchemeSelector: (selector: "light" | "dark") => string;
+    }
+    interface ThemeOptions {
+        getColorSchemeSelector?: (selector: "light" | "dark") => string;
+    }
 }

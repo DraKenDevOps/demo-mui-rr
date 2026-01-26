@@ -1,4 +1,4 @@
-import { Outlet, Navigate } from "react-router"
+import { Outlet, Navigate } from "react-router";
 
 export function extractJwt(token: string, key: "header" | "payload" | "signature") {
     const [header, payload, signature] = token.split(/\./);
@@ -34,6 +34,6 @@ const AuthGuard = () => {
             return <Navigate to="/login" />;
         }
     }
-}
+};
 
-export default AuthGuard
+export default AuthGuard;

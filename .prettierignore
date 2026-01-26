@@ -1,0 +1,12 @@
+# Ignore artifacts:
+build
+coverage
+dist
+node_modules
+index.html
+package.json
+README.*
+*lock
+tsconfig*.json
+vite.config*.ts
+vite.config*.js

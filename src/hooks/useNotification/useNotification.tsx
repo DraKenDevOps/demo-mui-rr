@@ -2,59 +2,59 @@ import { useContext, type ReactNode } from "react";
 import NotificationContext from "./NotificationContext";
 
 export interface ShowNotificationOptions {
-  /**
-   * The key to use for deduping notifications. If not provided, a unique key will be generated.
-   */
-  key?: string;
-  /**
-   * The severity of the notification. When provided, the snackbar will show an alert with the
-   * specified severity.
-   */
-  severity?: "info" | "warning" | "error" | "success";
-  /**
-   * The duration in milliseconds after which the notification will automatically close.
-   */
-  autoHideDuration?: number;
-  /**
-   * The text to display on the action button.
-   */
-  actionText?: ReactNode;
-  /**
-   * The callback to call when the action button is clicked.
-   */
-  onAction?: () => void;
+    /**
+     * The key to use for deduping notifications. If not provided, a unique key will be generated.
+     */
+    key?: string;
+    /**
+     * The severity of the notification. When provided, the snackbar will show an alert with the
+     * specified severity.
+     */
+    severity?: "info" | "warning" | "error" | "success";
+    /**
+     * The duration in milliseconds after which the notification will automatically close.
+     */
+    autoHideDuration?: number;
+    /**
+     * The text to display on the action button.
+     */
+    actionText?: ReactNode;
+    /**
+     * The callback to call when the action button is clicked.
+     */
+    onAction?: () => void;
 }
 
 export interface ShowNotification {
-  /**
-   * Show a snackbar in the application.
-   *
-   * @param message The message to display in the snackbar.
-   * @param options Options for the snackbar.
-   * @returns The key that represents the notification. Useful for programmatically
-   * closing it.
-   */
-  (message: React.ReactNode, options?: ShowNotificationOptions): string;
+    /**
+     * Show a snackbar in the application.
+     *
+     * @param message The message to display in the snackbar.
+     * @param options Options for the snackbar.
+     * @returns The key that represents the notification. Useful for programmatically
+     * closing it.
+     */
+    (message: React.ReactNode, options?: ShowNotificationOptions): string;
 }
 
 export interface CloseNotification {
-  /**
-   * Close a snackbar in the application.
-   *
-   * @param key The key of the notification to close.
-   */
-  (key: string): void;
+    /**
+     * Close a snackbar in the application.
+     *
+     * @param key The key of the notification to close.
+     */
+    (key: string): void;
 }
 
 interface UseNotifications {
-  show: ShowNotification;
-  close: CloseNotification;
+    show: ShowNotification;
+    close: CloseNotification;
 }
 
 export default function useNotification(): UseNotifications {
-  const context = useContext(NotificationContext);
-  if (!context) {
-    throw new Error("Notifications context was used without a provider.");
-  }
-  return context;
+    const context = useContext(NotificationContext);
+    if (!context) {
+        throw new Error("Notifications context was used without a provider.");
+    }
+    return context;
 }

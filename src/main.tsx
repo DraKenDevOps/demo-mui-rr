@@ -4,9 +4,9 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import App from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <StyledEngineProvider injectFirst>
-      <App />
-    </StyledEngineProvider>
-  </StrictMode>
+    <StrictMode>
+        <StyledEngineProvider injectFirst>
+            <App />
+        </StyledEngineProvider>
+    </StrictMode>
 );

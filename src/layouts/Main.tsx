@@ -10,86 +10,71 @@ import Sidebar from "../components/Sidebar";
 import SiteMarkIcon from "../components/SiteMarkIcon";
 
 export default function MainLayout() {
-  const theme = useTheme();
+    const theme = useTheme();
 
-  const [isDesktopNavigationExpanded, setIsDesktopNavigationExpanded] =
-    useState(true);
-  const [isMobileNavigationExpanded, setIsMobileNavigationExpanded] =
-    useState(false);
+    const [isDesktopNavigationExpanded, setIsDesktopNavigationExpanded] = useState(true);
+    const [isMobileNavigationExpanded, setIsMobileNavigationExpanded] = useState(false);
 
-  const isOverMdViewport = useMediaQuery(theme.breakpoints.up("md"));
+    const isOverMdViewport = useMediaQuery(theme.breakpoints.up("md"));
 
-  const isNavigationExpanded = isOverMdViewport
-    ? isDesktopNavigationExpanded
-    : isMobileNavigationExpanded;
+    const isNavigationExpanded = isOverMdViewport ? isDesktopNavigationExpanded : isMobileNavigationExpanded;
 
-  const setIsNavigationExpanded = useCallback(
-    (newExpanded: boolean) => {
-      if (isOverMdViewport) {
-        setIsDesktopNavigationExpanded(newExpanded);
-      } else {
-        setIsMobileNavigationExpanded(newExpanded);
-      }
-    },
-    [
-      isOverMdViewport,
-      setIsDesktopNavigationExpanded,
-      setIsMobileNavigationExpanded,
-    ],
-  );
+    const setIsNavigationExpanded = useCallback(
+        (newExpanded: boolean) => {
+            if (isOverMdViewport) {
+                setIsDesktopNavigationExpanded(newExpanded);
+            } else {
+                setIsMobileNavigationExpanded(newExpanded);
+            }
+        },
+        [isOverMdViewport, setIsDesktopNavigationExpanded, setIsMobileNavigationExpanded]
+    );
 
-  const handleToggleHeaderMenu = useCallback(
-    (isExpanded: boolean) => {
-      setIsNavigationExpanded(isExpanded);
-    },
-    [setIsNavigationExpanded],
-  );
+    const handleToggleHeaderMenu = useCallback(
+        (isExpanded: boolean) => {
+            setIsNavigationExpanded(isExpanded);
+        },
+        [setIsNavigationExpanded]
+    );
 
-  const layoutRef = useRef<HTMLDivElement>(null);
+    const layoutRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <Box
-      ref={layoutRef}
-      sx={{
-        position: "relative",
-        display: "flex",
-        overflow: "hidden",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <Header
-        logo={<SiteMarkIcon />}
-        title=""
-        menuOpen={isNavigationExpanded}
-        onToggleMenu={handleToggleHeaderMenu}
-      />
-      <Sidebar
-        expanded={isNavigationExpanded}
-        setExpanded={setIsNavigationExpanded}
-        container={layoutRef?.current ?? undefined}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          minWidth: 0,
-        }}
-      >
-        <Toolbar sx={{ displayPrint: "none" }} />
+    return (
         <Box
-          component="main"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            overflow: "auto",
-          }}
+            ref={layoutRef}
+            sx={{
+                position: "relative",
+                display: "flex",
+                overflow: "hidden",
+                height: "100%",
+                width: "100%"
+            }}
         >
-          <Outlet />
+            <Header logo={<SiteMarkIcon />} title="" menuOpen={isNavigationExpanded} onToggleMenu={handleToggleHeaderMenu} />
+            <Sidebar expanded={isNavigationExpanded} setExpanded={setIsNavigationExpanded} container={layoutRef?.current ?? undefined} />
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1,
+                    minWidth: 0,
+                    height: "100vh"
+                }}
+            >
+                <Toolbar sx={{ displayPrint: "none" }} />
+                <Box
+                    component="main"
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flex: 1,
+                        overflow: "auto",
+                        p: 2
+                    }}
+                >
+                    <Outlet />
+                </Box>
+            </Box>
         </Box>
-      </Box>
-    </Box>
-  );
+    );
 }
