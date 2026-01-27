@@ -42,20 +42,14 @@ export default function DashboardHeader({ logo, title, menuOpen, onToggleMenu }:
 
     const getMenuIcon = useCallback(
         (isExpanded: boolean) => {
-            const expandMenuActionText = "Expand";
-            const collapseMenuActionText = "Collapse";
+            const expandText = "Expand";
+            const collapseText = "Collapse";
 
             return (
-                <Tooltip title={`${isExpanded ? collapseMenuActionText : expandMenuActionText} menu`} enterDelay={1000}>
-                    <div>
-                        <IconButton
-                            size="small"
-                            aria-label={`${isExpanded ? collapseMenuActionText : expandMenuActionText} navigation menu`}
-                            onClick={handleMenuOpen}
-                        >
-                            {isExpanded ? <MenuOpenIcon /> : <MenuIcon />}
-                        </IconButton>
-                    </div>
+                <Tooltip title={`${isExpanded ? collapseText : expandText} menu`} enterDelay={1000}>
+                    <IconButton size="small" aria-label={`${isExpanded ? collapseText : expandText} navigation menu`} onClick={handleMenuOpen}>
+                        {isExpanded ? <MenuOpenIcon /> : <MenuIcon />}
+                    </IconButton>
                 </Tooltip>
             );
         },

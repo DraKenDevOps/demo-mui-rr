@@ -45,33 +45,14 @@ export default function MainLayout() {
             sx={{
                 position: "relative",
                 display: "flex",
-                overflow: "hidden",
-                height: "100%",
-                width: "100%"
+                overflow: "hidden"
             }}
         >
             <Header logo={<SiteMarkIcon />} title="" menuOpen={isNavigationExpanded} onToggleMenu={handleToggleHeaderMenu} />
             <Sidebar expanded={isNavigationExpanded} setExpanded={setIsNavigationExpanded} container={layoutRef?.current ?? undefined} />
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    flex: 1,
-                    minWidth: 0,
-                    height: "100vh"
-                }}
-            >
+            <Box component="main" height="100vh" width="100%">
                 <Toolbar sx={{ displayPrint: "none" }} />
-                <Box
-                    component="main"
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flex: 1,
-                        overflow: "auto",
-                        p: 2
-                    }}
-                >
+                <Box overflow="auto">
                     <Outlet />
                 </Box>
             </Box>

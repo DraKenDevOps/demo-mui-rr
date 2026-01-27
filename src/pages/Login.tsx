@@ -112,11 +112,12 @@ const Login = (props: { disableCustomTheme?: boolean }) => {
             console.log(data);
             if (data.status === "ok") {
                 localStorage.setItem("ACCESS_TOKEN", data.accessToken);
+                localStorage.setItem("USER", JSON.stringify(data.user));
                 navigate("/home", { replace: true });
                 (document.getElementById("username") as HTMLInputElement).value = "";
                 (document.getElementById("password") as HTMLInputElement).value = "";
-                data.delete("username");
-                data.delete("password");
+                // data.delete("username");
+                // data.delete("password");
             }
         });
     };
@@ -163,7 +164,7 @@ const Login = (props: { disableCustomTheme?: boolean }) => {
                 <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
                 <Card variant="outlined">
                     <SiteMarkIcon />
-                    <Typography component="h1" variant="h4" sx={{ fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
+                    <Typography component="h1" variant="h4" sx={{ fontSize: "clamp(1.15rem, 10vw, 1.45rem)" }}>
                         Login to use the Application
                     </Typography>
                     <Box

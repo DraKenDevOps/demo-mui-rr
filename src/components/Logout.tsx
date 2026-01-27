@@ -6,6 +6,7 @@ export default function Logout() {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("ACCESS_TOKEN");
+        localStorage.removeItem("USER");
         navigate("/login", { replace: true });
         // window.location.href = "/login";
     };

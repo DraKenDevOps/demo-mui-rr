@@ -3,7 +3,7 @@ import { CssBaseline } from "@mui/material";
 import AppTheme from "./themes/AppTheme";
 import { CustomDatePicker, CustomFormInput, CustomSidebar, CustomDataGrid } from "./themes/customs";
 import NotificationProvider from "./hooks/useNotification/NotificationProvider";
-import DialogProvider from "./hooks/useDialogs/DialogProvider";
+import DialogProvider from "./hooks/useDialog/DialogProvider";
 import router from "./router";
 
 const themeComponents = {

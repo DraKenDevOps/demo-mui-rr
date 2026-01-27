@@ -7,13 +7,45 @@ import Pictures from "./pages/Pictures";
 import Images from "./pages/Images";
 import Settings from "./pages/Settings";
 import Sales from "./pages/Sales";
-import Employees from "./pages/Employees";
+import Employees from "./pages/Employees/List";
 import Traffics from "./pages/Traffics";
 import Integrations from "./pages/Integrations";
 
+export function extractJwt(token: string, key: "header" | "payload" | "signature") {
+    const [header, payload, signature] = token.split(/\./);
+    const jwtext = {
+        header,
+        payload,
+        signature
+    };
+    return jwtext[key];
+}
+
 function authGuard() {
     const token = localStorage.getItem("ACCESS_TOKEN");
-    if (!token) throw redirect("/login");
+    if (!token) {
+        throw redirect("/login");
+    } 
+    // else {
+    //     try {
+    //         const user = JSON.parse(atob(extractJwt(token, "payload")));
+    //         console.log(user)
+    //         if (!user) {
+    //             throw redirect("/login");
+    //         } else {
+    //             const current = Math.floor(Date.now() / 1000);
+    //             const diff = Number(user["exp"]) - current;
+    //             if (diff <= 0) {
+    //                 localStorage.removeItem("ACCESS_TOKEN");
+    //                 throw redirect("/login");
+    //             }
+    //         }
+    //     } catch (err) {
+    //         localStorage.removeItem("ACCESS_TOKEN");
+    //         console.error(err);
+    //         throw redirect("/login");
+    //     }
+    // }
     return null;
 }
 

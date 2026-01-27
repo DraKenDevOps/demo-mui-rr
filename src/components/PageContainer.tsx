@@ -5,6 +5,7 @@ import Breadcrumbs, { breadcrumbsClasses } from "@mui/material/Breadcrumbs";
 import Container, { type ContainerProps } from "@mui/material/Container";
 import MuiLink from "@mui/material/Link";
 import { NavigateNextRounded } from "@mui/icons-material";
+import type { ReactNode } from "react";
 
 const PageContentHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -41,14 +42,14 @@ export interface PageContainerProps extends ContainerProps {
     children?: React.ReactNode;
     title?: string;
     breadcrumbs?: Breadcrumb[];
-    actions?: React.ReactNode;
+    actions?: ReactNode;
 }
 
 export default function PageContainer(props: PageContainerProps) {
     const { children, breadcrumbs, title, actions = null } = props;
     return (
-        <Container sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-            <Stack sx={{ flex: 1, my: 2 }} spacing={2}>
+        <Container maxWidth="xl">
+            <Stack sx={{ my: 2 }} spacing={2}>
                 <Stack>
                     <PageHeaderBreadcrumbs aria-label="breadcrumb" separator={<NavigateNextRounded fontSize="small" />}>
                         {breadcrumbs
@@ -70,8 +71,8 @@ export default function PageContainer(props: PageContainerProps) {
                         <PageHeaderToolbar>{actions}</PageHeaderToolbar>
                     </PageContentHeader>
                 </Stack>
-                <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>{children}</Box>
             </Stack>
+            {children}
         </Container>
     );
 }
