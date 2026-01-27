@@ -34,7 +34,22 @@ export default function AppTheme(props: AppThemeProps) {
                       ...CustomFeedback,
                       ...CustomNavigator,
                       ...CustomSurface,
-                      ...themeComponents
+                      ...themeComponents,
+                      MuiButtonBase: {
+                          defaultProps: {
+                              disableRipple: true
+                          }
+                      },
+                      MuiButtonGroup: {
+                          defaultProps: {
+                              disableElevation: true
+                          }
+                      },
+                      MuiButton: {
+                          defaultProps: {
+                              disableElevation: true
+                          }
+                      }
                   }
               });
     }, [disableCustomTheme, themeComponents]);
