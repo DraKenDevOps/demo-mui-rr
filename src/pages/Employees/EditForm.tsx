@@ -100,8 +100,13 @@ function EditForm({
     );
 }
 
-export default function EmployeeEdit() {
-    const { employeeId } = useParams();
+type Props = {
+    data: Employee;
+};
+
+export default function EmployeeEdit({ data }: Props) {
+
+    const employeeId = data.id
 
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [isLoading, setIsLoading] = useState(true);

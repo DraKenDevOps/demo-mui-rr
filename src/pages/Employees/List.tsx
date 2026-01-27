@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Button, IconButton, Stack, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import {
     DataGrid,
     GridActionsCellItem,
@@ -22,6 +22,9 @@ import { useDialog } from "../../hooks/useDialog/useDialog";
 import useNotifications from "../../hooks/useNotification/useNotification";
 import { deleteOne as deleteEmployee, getMany as getEmployees, type Employee } from "../../services/mock";
 import PageContainer from "../../components/PageContainer";
+import CustomDrawer from "../../components/CustomDrawer";
+import EmployeeCreate from "./Create";
+import EmployeeEdit from "./EditForm";
 
 const INITIAL_PAGE_SIZE = 10;
 
@@ -121,14 +124,11 @@ export default function EmployeeList() {
 
     const handleRowClick = useCallback<GridEventListener<"rowClick">>(
         ({ row }) => {
-            navigate(`/employees/${row.id}`);
+            // navigate(`/employees/${row.id}`);
+            console.log(row)
         },
         [navigate]
     );
-
-    const handleCreateClick = useCallback(() => {
-        navigate("/employees/new");
-    }, [navigate]);
 
     const handleRowEdit = useCallback(
         (employee: Employee) => () => {
@@ -199,8 +199,9 @@ export default function EmployeeList() {
                 flex: 1,
                 align: "right",
                 getActions: ({ row }) => [
-                    <GridActionsCellItem key="edit-item" icon={<EditIcon />} label="Edit" onClick={handleRowEdit(row)} />,
-                    <GridActionsCellItem key="delete-item" icon={<DeleteIcon />} label="Delete" onClick={handleRowDelete(row)} />
+                    // <GridActionsCellItem key="edit-item" icon={<EditIcon />} label="Edit" onClick={handleRowEdit(row)} />,
+                    <CustomDrawer title="Edit Employee" titleIcon={<EditIcon />} btnIcon={<EditIcon />} children={<EmployeeEdit data={row} />} />,
+                    <GridActionsCellItem key="delete-item" icon={<DeleteIcon />} label="Delete" onClick={handleRowDelete(row)} />,
                 ]
             }
         ],
@@ -222,9 +223,8 @@ export default function EmployeeList() {
                             </IconButton>
                         </div>
                     </Tooltip>
-                    <Button variant="contained" onClick={handleCreateClick} startIcon={<AddIcon />}>
-                        Create
-                    </Button>
+                    
+                    <CustomDrawer title="Create Employee" titleIcon={<AddIcon />} btnIcon={<AddIcon />} children={<EmployeeCreate />} />
                 </Stack>
             }
         >

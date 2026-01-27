@@ -2,8 +2,8 @@ import { useCallback, useState, type ChangeEvent, type FormEvent } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from 'react-router';
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import { useNavigate } from 'react-router';
 import dayjs from "dayjs";
 
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, MenuItem, Stack, TextField } from "@mui/material";
@@ -27,12 +27,13 @@ export interface EmployeeFormProps {
 }
 
 export default function EmployeeForm(props: EmployeeFormProps) {
-    const { formState, onFieldChange, onSubmit, onReset, submitButtonLabel, backButtonPath } = props;
+    // const { formState, onFieldChange, onSubmit, onReset, submitButtonLabel, backButtonPath } = props;
+    const { formState, onFieldChange, onSubmit, onReset, submitButtonLabel } = props;
 
     const formValues = formState.values;
     const formErrors = formState.errors;
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -95,9 +96,9 @@ export default function EmployeeForm(props: EmployeeFormProps) {
         }
     }, [formValues, onReset]);
 
-    const handleBack = useCallback(() => {
-        navigate(backButtonPath ?? "/employees");
-    }, [navigate, backButtonPath]);
+    // const handleBack = useCallback(() => {
+    //     navigate(backButtonPath ?? "/employees");
+    // }, [navigate, backButtonPath]);
 
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off" onReset={handleReset} sx={{ width: "100%" }}>
@@ -133,6 +134,7 @@ export default function EmployeeForm(props: EmployeeFormProps) {
                                 onChange={handleDateFieldChange("joinDate")}
                                 name="joinDate"
                                 label="Join date"
+                                format="DD-MM-YYYY"
                                 slotProps={{
                                     textField: {
                                         error: !!formErrors.joinDate,
@@ -175,9 +177,9 @@ export default function EmployeeForm(props: EmployeeFormProps) {
                 </Grid>
             </FormGroup>
             <Stack direction="row" spacing={2} justifyContent="space-between">
-                <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack}>
+                {/* <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack}>
                     Back
-                </Button>
+                </Button> */}
                 <Button type="submit" variant="contained" size="large" loading={isSubmitting}>
                     {submitButtonLabel}
                 </Button>

@@ -68,13 +68,13 @@ export default function EmployeeCreate() {
         setFormErrors({});
 
         try {
-            await createEmployee(formValues as Omit<Employee, "id">);
+            createEmployee(formValues as Omit<Employee, "id">);
             notifications.show("Employee created successfully.", {
                 severity: "success",
                 autoHideDuration: 3000
             });
 
-            navigate("/employees");
+            // navigate("/employees");
         } catch (createError) {
             notifications.show(`Failed to create employee. Reason: ${(createError as Error).message}`, {
                 severity: "error",

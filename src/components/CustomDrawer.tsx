@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Drawer, IconButton, Typography, Button, Divider } from "@mui/material";
-import { Menu as MenuIcon, Close as CloseIcon, Settings as SettingsIcon } from "@mui/icons-material";
+import { Box, Drawer, IconButton, Typography } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 const MuiDrawer = styled(Drawer)(({ theme }) => ({
     boxShadow: theme.shadows[16],
@@ -10,7 +10,14 @@ const MuiDrawer = styled(Drawer)(({ theme }) => ({
     borderColor: "divider"
 }));
 
-const CustomDrawer = () => {
+type Props = {
+    title?: string,
+    titleIcon?: ReactNode,
+    btnIcon?: ReactNode,
+    children?: ReactNode
+}
+
+const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => setIsOpen(true);
@@ -25,9 +32,12 @@ const CustomDrawer = () => {
 
     return (
         <>
-            <Button variant="contained" disableElevation onClick={handleOpen} startIcon={<MenuIcon />}>
+            {/* <Button variant="contained" disableElevation onClick={handleOpen} startIcon={btnIcon}>
                 Open
-            </Button>
+            </Button> */}
+            <IconButton onClick={handleOpen} color="primary" size="small">
+                {btnIcon}
+            </IconButton>
             <MuiDrawer
                 anchor="right"
                 open={isOpen}
@@ -65,9 +75,9 @@ const CustomDrawer = () => {
                         }}
                     >
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                            <SettingsIcon color="primary" />
+                            {titleIcon}
                             <Typography variant="h6" fontWeight={700}>
-                                System Configuration
+                                {title || "System Configuration"}
                             </Typography>
                         </Box>
                         <IconButton onClick={handleClose} color="primary" size="small">
@@ -76,12 +86,12 @@ const CustomDrawer = () => {
                     </Box>
 
                     {/* Drawer Body */}
-                    <Box sx={{ p: 4, flexGrow: 1, overflowY: "auto" }}>
-                        
+                    <Box sx={{ p: 4, flexGrow: 1, overflowY: "auto", bgcolor: "background.default" }}>
+                        {children}
                     </Box>
 
                     {/* Drawer Actions */}
-                    <Box
+                    {/* <Box
                         sx={{
                             p: 2,
                             borderTop: "1px solid",
@@ -97,7 +107,7 @@ const CustomDrawer = () => {
                         <Button variant="outlined" size="large" onClick={handleClose}>
                             Discard
                         </Button>
-                    </Box>
+                    </Box> */}
                 </Box>
             </MuiDrawer>
         </>

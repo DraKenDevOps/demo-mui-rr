@@ -4,8 +4,20 @@ import { menuItemClasses } from "@mui/material/MenuItem";
 import { pickersDayClasses, yearCalendarClasses } from "@mui/x-date-pickers";
 import { gray, brand } from "../themePrimitives";
 
-/* eslint-disable import/prefer-default-export */
 export const CustomDatePicker: PickerComponents<Theme> = {
+    // MuiDateField: {
+    //     styleOverrides: {
+    //         root: ({ theme }) => ({
+    //             '& .MuiInputBase-root': {
+    //                 backgroundColor: "hsl(0, 0%, 100%)", // e.g., '#1a1a1a' or gray[900]
+    //                 ...theme.applyStyles("dark", {
+    //                     backgroundColor: "hsl(220, 35%, 3%)",
+    //                 })
+    //             }
+    //         })
+    //     }
+    // },
+    
     MuiPickerPopper: {
         styleOverrides: {
             paper: ({ theme }) => ({
@@ -21,6 +33,7 @@ export const CustomDatePicker: PickerComponents<Theme> = {
                 },
                 ...theme.applyStyles("dark", {
                     background: gray[900],
+                    // backgroundColor: "hsl(220, 35%, 3%)",
                     boxShadow: "hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px"
                 })
             })
