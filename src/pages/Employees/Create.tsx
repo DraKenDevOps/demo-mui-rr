@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 
 import useNotification from "../../hooks/useNotification/useNotification";
-import PageContainer from "../../components/PageContainer";
 import { type Employee, createOne as createEmployee, validate as validateEmployee } from "../../services/mock";
 import EmployeeForm, { type FormFieldValue, type EmployeeFormState } from "./Form";
 
@@ -85,14 +84,12 @@ export default function EmployeeCreate() {
     }, [formValues, navigate, notifications, setFormErrors]);
 
     return (
-        <PageContainer title="New Employee" breadcrumbs={[{ title: "Employees", path: "/employees" }, { title: "New" }]}>
-            <EmployeeForm
-                formState={formState}
-                onFieldChange={handleFormFieldChange}
-                onSubmit={handleFormSubmit}
-                onReset={handleFormReset}
-                submitButtonLabel="Create"
-            />
-        </PageContainer>
+        <EmployeeForm
+            formState={formState}
+            onFieldChange={handleFormFieldChange}
+            onSubmit={handleFormSubmit}
+            onReset={handleFormReset}
+            submitButtonLabel="Create"
+        />
     );
 }

@@ -105,25 +105,24 @@ type Props = {
 };
 
 export default function EmployeeEdit({ data }: Props) {
-
-    const employeeId = data.id
+    const employeeId = data.id;
 
     const [employee, setEmployee] = useState<Employee | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [error, setError] = useState<Error | null>(null);
 
     const loadData = useCallback(async () => {
-        setError(null);
-        setIsLoading(true);
+        // setError(null);
+        // setIsLoading(true);
 
         try {
-            const showData = await getEmployee(Number(employeeId));
+            const showData = getEmployee(Number(employeeId));
 
             setEmployee(showData);
         } catch (showDataError) {
-            setError(showDataError as Error);
+            // setError(showDataError as Error);
         }
-        setIsLoading(false);
+        // setIsLoading(false);
     }, [employeeId]);
 
     useEffect(() => {
@@ -132,47 +131,40 @@ export default function EmployeeEdit({ data }: Props) {
 
     const handleSubmit = useCallback(
         async (formValues: Partial<EmployeeFormState["values"]>) => {
-            const updatedData = await updateEmployee(Number(employeeId), formValues);
+            const updatedData = updateEmployee(Number(employeeId), formValues);
             setEmployee(updatedData);
         },
         [employeeId]
     );
 
-    const renderEdit = useMemo(() => {
-        if (isLoading) {
-            return (
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
-                        m: 1
-                    }}
-                >
-                    <CircularProgress />
-                </Box>
-            );
-        }
-        if (error) {
-            return (
-                <Box sx={{ flexGrow: 1 }}>
-                    <Alert severity="error">{error.message}</Alert>
-                </Box>
-            );
-        }
+    // const renderEdit = useMemo(() => {
+    //     if (isLoading) {
+    //         return (
+    //             <Box
+    //                 sx={{
+    //                     flex: 1,
+    //                     display: "flex",
+    //                     flexDirection: "column",
+    //                     alignItems: "center",
+    //                     justifyContent: "center",
+    //                     width: "100%",
+    //                     m: 1
+    //                 }}
+    //             >
+    //                 <CircularProgress />
+    //             </Box>
+    //         );
+    //     }
+    //     if (error) {
+    //         return (
+    //             <Box sx={{ flexGrow: 1 }}>
+    //                 <Alert severity="error">{error.message}</Alert>
+    //             </Box>
+    //         );
+    //     }
 
-        return employee ? <EditForm initialValues={employee} onSubmit={handleSubmit} /> : null;
-    }, [isLoading, error, employee, handleSubmit]);
+        
+    // }, [isLoading, error, employee, handleSubmit]);
 
-    return (
-        <PageContainer
-            title={`Edit Employee ${employeeId}`}
-            breadcrumbs={[{ title: "Employees", path: "/employees" }, { title: `Employee ${employeeId}`, path: `/employees/${employeeId}` }, { title: "Edit" }]}
-        >
-            <Box sx={{ display: "flex", flex: 1 }}>{renderEdit}</Box>
-        </PageContainer>
-    );
+    return employee ? <EditForm initialValues={employee} onSubmit={handleSubmit} /> : null;
 }

@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 import { useDialog } from "../../hooks/useDialog/useDialog";
 import useNotification from "../../hooks/useNotification/useNotification";
 import { deleteOne as deleteEmployee, getOne as getEmployee, type Employee } from "../../services/mock";
-import PageContainer from "../../components/PageContainer";
 
 export default function EmployeeShow() {
     const { employeeId } = useParams();
@@ -168,11 +167,5 @@ export default function EmployeeShow() {
         ) : null;
     }, [isLoading, error, employee, handleBack, handleEmployeeEdit, handleEmployeeDelete]);
 
-    const pageTitle = `Employee ${employeeId}`;
-
-    return (
-        <PageContainer title={pageTitle} breadcrumbs={[{ title: "Employees", path: "/employees" }, { title: pageTitle }]}>
-            <Box sx={{ display: "flex", flex: 1, width: "100%" }}>{renderShow}</Box>
-        </PageContainer>
-    );
+    return renderShow;
 }

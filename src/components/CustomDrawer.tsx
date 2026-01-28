@@ -11,11 +11,11 @@ const MuiDrawer = styled(Drawer)(({ theme }) => ({
 }));
 
 type Props = {
-    title?: string,
-    titleIcon?: ReactNode,
-    btnIcon?: ReactNode,
-    children?: ReactNode
-}
+    title?: string;
+    titleIcon?: ReactNode;
+    btnIcon?: ReactNode;
+    children?: ReactNode;
+};
 
 const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,11 +24,18 @@ const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
     const handleClose = () => setIsOpen(false);
 
     // Requirement: Prevent closing on backdrop click
-    // const handleOnClose = (_event: unknown, reason: "backdropClick" | "escapeKeyDown") => {
-    //     if (reason === "backdropClick") return;
-    //     console.log(reason)
-    //     handleClose();
-    // };
+    const handleOnClose = (_event: unknown, reason: "backdropClick" | "escapeKeyDown") => {
+        if (reason === "backdropClick") return;
+        console.log(reason);
+        handleClose();
+    };
+
+    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (event.type === "keydown" && ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")) {
+            return;
+        }
+        setIsOpen(open);
+    };
 
     return (
         <>
@@ -41,7 +48,8 @@ const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
             <MuiDrawer
                 anchor="right"
                 open={isOpen}
-                onClose={handleClose}
+                variant="temporary"
+                onClose={toggleDrawer(false)}
                 hideBackdrop={true}
                 slotProps={{
                     paper: {
@@ -65,7 +73,7 @@ const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
                     {/* Drawer Header */}
                     <Box
                         sx={{
-                            p: 2,
+                            p: 1,
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
@@ -86,9 +94,7 @@ const CustomDrawer = ({ title, titleIcon, btnIcon, children }: Props) => {
                     </Box>
 
                     {/* Drawer Body */}
-                    <Box sx={{ p: 4, flexGrow: 1, overflowY: "auto", bgcolor: "background.default" }}>
-                        {children}
-                    </Box>
+                    <Box sx={{ p: 4, flexGrow: 1, overflowY: "auto", bgcolor: "background.default" }}>{children}</Box>
 
                     {/* Drawer Actions */}
                     {/* <Box

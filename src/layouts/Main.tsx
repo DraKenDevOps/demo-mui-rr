@@ -50,12 +50,46 @@ export default function MainLayout() {
         >
             <Header logo={<SiteMarkIcon />} title="" menuOpen={isNavigationExpanded} onToggleMenu={handleToggleHeaderMenu} />
             <Sidebar expanded={isNavigationExpanded} setExpanded={setIsNavigationExpanded} container={layoutRef?.current ?? undefined} />
-            <Box component="main" height="100vh" width="100%">
+            <Box component="main" height="100vh" width="100%" overflow="auto">
                 <Toolbar sx={{ displayPrint: "none" }} />
                 <Box overflow="auto">
                     <Outlet />
                 </Box>
             </Box>
         </Box>
+        // <Box
+        //     ref={layoutRef}
+        //     sx={{
+        //         position: "relative",
+        //         display: "flex",
+        //         overflow: "hidden",
+        //         height: "100%",
+        //         width: "100%"
+        //     }}
+        // >
+        //     <Header logo={<SiteMarkIcon />} title="" menuOpen={isNavigationExpanded} onToggleMenu={handleToggleHeaderMenu} />
+        //     <Sidebar expanded={isNavigationExpanded} setExpanded={setIsNavigationExpanded} container={layoutRef?.current ?? undefined} />
+        //     <Box
+        //         sx={{
+        //             display: "flex",
+        //             flexDirection: "column",
+        //             flex: 1,
+        //             minWidth: 0
+        //         }}
+        //     >
+        //         <Toolbar sx={{ displayPrint: "none" }} />
+        //         <Box
+        //             component="main"
+        //             sx={{
+        //                 display: "flex",
+        //                 flexDirection: "column",
+        //                 flex: 1,
+        //                 overflow: "auto"
+        //             }}
+        //         >
+        //             <Outlet />
+        //         </Box>
+        //     </Box>
+        // </Box>
     );
 }
