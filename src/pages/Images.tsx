@@ -18,18 +18,18 @@ const Images = () => {
     const [limit, _setLimit] = useState(12);
     const [tags, setTags] = useState("");
 
-    const getTestPostByPaging = useCallback(() => {
-        getTestPostList(page, limit).then((list) => setPostList(list));
-    }, [page]);
+    // const getTestPostByPaging = useCallback(() => {
+    //     getTestPostList(page, limit).then((list) => setPostList(list));
+    // }, [page]);
 
     const getPostByPaging = useCallback(() => {
-        getPostList(page, limit).then((list) => setPostList(list));
+        getPostList(page, limit, tags).then((list) => setPostList(list));
     }, [page]);
 
-    const getTestPostBytags = useCallback(() => {
-        setPage(1);
-        getTestPostList(page, limit, tags).then((list) => setPostList(list));
-    }, [tags]);
+    // const getTestPostBytags = useCallback(() => {
+    //     setPage(1);
+    //     getTestPostList(page, limit, tags).then((list) => setPostList(list));
+    // }, [tags]);
 
     const getPostBytags = useCallback(() => {
         setPage(1);
@@ -77,6 +77,7 @@ const Images = () => {
                             placeholder="Search items..."
                             variant="outlined"
                             size="small"
+                            type="search"
                             value={tags}
                             onChange={(e) => setTags(e.target.value)}
                             InputProps={{
@@ -92,7 +93,7 @@ const Images = () => {
                 </Box>
             </Paper>
             <CustomPagination pageCount={10} pageNumber={page} setPageNumber={setPage} />
-            <PostList postList={postList} activeTab={activeTab} isMobile={isMobile} />
+            <PostList postList={postList} activeTab={activeTab} isMobile={isMobile} setTags={setTags} />
             <CustomPagination pageCount={10} pageNumber={page} setPageNumber={setPage} />
         </PageContainer>
     );

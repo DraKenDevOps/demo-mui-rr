@@ -1,17 +1,5 @@
 import { useState } from "react";
-import {
-    Typography,
-    Box,
-    ImageList,
-    ImageListItem,
-    ImageListItemBar,
-    IconButton,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    Chip,
-    Fade
-} from "@mui/material";
+import { Typography, Box, ImageList, ImageListItem, ImageListItemBar, IconButton, Dialog, DialogTitle, DialogContent, Chip, Fade } from "@mui/material";
 import {
     // Info as InfoIcon,
     Favorite as FavoriteIcon,
@@ -19,15 +7,19 @@ import {
     Close as CloseIcon,
     FilterList as FilterIcon
 } from "@mui/icons-material";
-import type { IPost } from "../../services/danbooru";
+import type { IPost, IVariant } from "../../services/danbooru";
 
 // --- Main Component ---
 type Props = {
     postList: Array<IPost>;
     isMobile: boolean;
     activeTab: number;
+    setTags?: (tag: string) => void;
 };
-export default function PostList({ postList, activeTab, isMobile }: Props) {
+
+type VariantType = "180x180" | "360x360" | "720x720" | "sample" | "original";
+
+export default function PostList({ postList, activeTab, isMobile, setTags }: Props) {
     const [selectedImage, setSelectedImage] = useState<IPost | null>(null);
     const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
@@ -41,6 +33,22 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
         setFavorites(newFavs);
     };
 
+    function setTextBox(tag: string) {
+        setTags && setTags(tag);
+    }
+
+    function getImg(variants: IVariant[] = [], type:VariantType = "180x180") {
+        let src = "";
+        if (!variants) return src;
+        try {
+            const url = variants.find((v) => v.type == type)?.url;
+            if (url) src = url;
+        } catch (err) {
+            console.error(err);
+        }
+        return src;
+    }
+
     const renderImageList = () => {
         switch (activeTab) {
             case 0: // Standard
@@ -49,7 +57,7 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
                         {postList.map((item) => (
                             <ImageListItem key={item.id}>
                                 <img
-                                    src={item.media_asset.variants[0].url}
+                                    src={getImg(item.media_asset.variants)}
                                     alt={item.source}
                                     loading="lazy"
                                     className="rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
@@ -82,7 +90,7 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
                         {postList.map((item) => (
                             <ImageListItem key={item.id} cols={1} rows={1}>
                                 <img
-                                    src={item.media_asset.variants[0].url}
+                                    src={getImg(item.media_asset.variants)}
                                     alt={item.source}
                                     loading="lazy"
                                     className="rounded-lg cursor-pointer"
@@ -99,7 +107,7 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
                         {postList.map((item) => (
                             <ImageListItem key={item.id}>
                                 <img
-                                    src={item.media_asset.variants[0].url}
+                                    src={getImg(item.media_asset.variants)}
                                     alt={item.source}
                                     loading="lazy"
                                     className="rounded-lg cursor-pointer"
@@ -161,11 +169,7 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
                             </IconButton>
                         </DialogTitle>
                         <DialogContent dividers sx={{ p: 0 }}>
-                            <img
-                                src={`${selectedImage.media_asset.variants.filter((mv) => mv.type == "original")[0].url}`}
-                                alt={selectedImage.source}
-                                style={{ width: "100%", display: "block" }}
-                            />
+                            <img src={getImg(selectedImage.media_asset.variants, "original")} alt={selectedImage.source} style={{ width: "100%", display: "block" }} />
                             <Box sx={{ p: 3 }}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
                                     <Typography variant="body1" color="text.secondary">
@@ -175,11 +179,13 @@ export default function PostList({ postList, activeTab, isMobile }: Props) {
                                         {favorites.has(selectedImage.source) ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                 </Box>
-                                {/* <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                                    {selectedImage.tags.map((tag) => (
-                                        <Chip key={tag} label={`#${tag.toLowerCase()}`} size="small" variant="outlined" />
+                                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                                    {selectedImage.tag_string.split(/ /g).map((tag) => (
+                                        <a href="" onClick={() => setTextBox(tag)}>
+                                            <Chip key={tag} label={`#${tag.toLowerCase()}`} size="small" variant="outlined" />
+                                        </a>
                                     ))}
-                                </Box> */}
+                                </Box>
                             </Box>
                         </DialogContent>
                     </>

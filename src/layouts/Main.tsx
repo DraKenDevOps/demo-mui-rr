@@ -1,60 +1,57 @@
 import { useCallback, useRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import { Toolbar, Box } from "@mui/material";
 import { Outlet } from "react-router";
-
-import Header from "../components/Header";
+import { useDrawerStore } from "../store";
+import AppHeader from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SiteMarkIcon from "../components/SiteMarkIcon";
 
 export default function MainLayout() {
     const theme = useTheme();
-
-    const [isDesktopNavigationExpanded, setIsDesktopNavigationExpanded] = useState(true);
-    const [isMobileNavigationExpanded, setIsMobileNavigationExpanded] = useState(false);
+    const { setOpen } = useDrawerStore();
+    const [isDesktopNavExpanded, setIsDesktopNavExpanded] = useState(true);
+    const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
 
     const isOverMdViewport = useMediaQuery(theme.breakpoints.up("md"));
 
-    const isNavigationExpanded = isOverMdViewport ? isDesktopNavigationExpanded : isMobileNavigationExpanded;
+    const menuOpen = isOverMdViewport ? isDesktopNavExpanded : isMobileNavExpanded;
 
-    const setIsNavigationExpanded = useCallback(
+    const setIsNavExpanded = useCallback(
         (newExpanded: boolean) => {
             if (isOverMdViewport) {
-                setIsDesktopNavigationExpanded(newExpanded);
+                setIsDesktopNavExpanded(newExpanded);
             } else {
-                setIsMobileNavigationExpanded(newExpanded);
+                setIsMobileNavExpanded(newExpanded);
             }
         },
-        [isOverMdViewport, setIsDesktopNavigationExpanded, setIsMobileNavigationExpanded]
+        [isOverMdViewport, setIsDesktopNavExpanded, setIsMobileNavExpanded]
     );
 
-    const handleToggleHeaderMenu = useCallback(
+    const onToggleMenu = useCallback(
         (isExpanded: boolean) => {
-            setIsNavigationExpanded(isExpanded);
+            setOpen(isExpanded);
+            setIsNavExpanded(isExpanded);
         },
-        [setIsNavigationExpanded]
+        [setIsNavExpanded]
     );
 
     const layoutRef = useRef<HTMLDivElement>(null);
 
     return (
         <Box
-            ref={layoutRef}
             sx={{
                 position: "relative",
                 display: "flex",
                 overflow: "hidden"
             }}
         >
-            <Header logo={<SiteMarkIcon />} title="" menuOpen={isNavigationExpanded} onToggleMenu={handleToggleHeaderMenu} />
-            <Sidebar expanded={isNavigationExpanded} setExpanded={setIsNavigationExpanded} container={layoutRef?.current ?? undefined} />
-            <Box component="main" height="100vh" width="100%" overflow="auto">
-                <Toolbar sx={{ displayPrint: "none" }} />
-                <Box overflow="auto">
-                    <Outlet />
-                </Box>
+            <AppHeader logo={<SiteMarkIcon />} title="" menuOpen={menuOpen} onToggleMenu={onToggleMenu} />
+            <Sidebar expanded={menuOpen} setExpanded={setIsNavExpanded} layouRef={layoutRef?.current ?? undefined} />
+            <Box component="main" height="100vh" overflow="auto" flexGrow={1}>
+                <Toolbar />
+                <Outlet />
             </Box>
         </Box>
         // <Box

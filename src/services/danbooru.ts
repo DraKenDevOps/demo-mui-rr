@@ -64,7 +64,7 @@ export interface IMediaAsset {
     file_key: string;
     is_public: boolean;
     pixel_hash: string;
-    variants: IVariant[];
+    variants: IVariant[] | undefined;
 }
 
 export interface IVariant {

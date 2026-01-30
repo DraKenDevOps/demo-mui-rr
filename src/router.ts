@@ -100,6 +100,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "*",
+                loader: () => redirect("/home"),
                 Component: Home
             }
         ]

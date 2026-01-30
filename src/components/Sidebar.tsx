@@ -27,7 +27,7 @@ export interface SidebarProps {
     expanded?: boolean;
     setExpanded: (expanded: boolean) => void;
     disableCollapsibleSidebar?: boolean;
-    container?: Element;
+    layouRef?: Element;
 }
 
 const mainItems = [
@@ -68,7 +68,7 @@ const mainItems = [
     }
 ];
 
-export default function Sidebar({ expanded = true, setExpanded, disableCollapsibleSidebar = false, container }: SidebarProps) {
+export default function Sidebar({ expanded = true, setExpanded, disableCollapsibleSidebar = false, layouRef }: SidebarProps) {
     const theme = useTheme();
     const { pathname } = useLocation();
 
@@ -251,8 +251,8 @@ export default function Sidebar({ expanded = true, setExpanded, disableCollapsib
     return (
         <SidebarContext.Provider value={sidebarContextValue}>
             <Drawer
-                container={container}
-                variant="temporary"
+                container={layouRef}
+                variant="permanent"
                 open={expanded}
                 onClose={handleSetSidebarExpanded(false)}
                 ModalProps={{

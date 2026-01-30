@@ -1,19 +1,28 @@
 import { useCallback, type ReactNode } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { Box, AppBar as MuiAppBar, IconButton, Toolbar, Tooltip, Typography, Stack } from "@mui/material";
+import { Box, AppBar, IconButton, Toolbar, Tooltip, Typography, Stack } from "@mui/material";
 import { Menu as MenuIcon, MenuOpen as MenuOpenIcon } from "@mui/icons-material";
-
 import { Link } from "react-router";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Logout from "./Logout";
+// import { DRAWER_WIDTH } from "../env";
 
-const AppBar = styled(MuiAppBar)(({ theme }) => ({
+const MuiAppBar = styled(AppBar, {
+    shouldForwardProp: (prop) => prop !== "open"
+})(({ theme }) => ({
+    // width: `calc(100% - ${DRAWER_WIDTH}px)`,
     borderWidth: 0,
     borderBottomWidth: 1,
     borderStyle: "solid",
     borderColor: (theme.vars ?? theme).palette.divider,
     boxShadow: "none",
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
+    position: "fixed",
+    color: "inherit",
+    transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+    })
 }));
 
 const LogoContainer = styled("div")({
@@ -33,12 +42,9 @@ export interface HeaderProps {
     onToggleMenu: (open: boolean) => void;
 }
 
-export default function DashboardHeader({ logo, title, menuOpen, onToggleMenu }: HeaderProps) {
+export default function AppHeader({ logo, title, menuOpen, onToggleMenu }: HeaderProps) {
     const theme = useTheme();
-
-    const handleMenuOpen = useCallback(() => {
-        onToggleMenu(!menuOpen);
-    }, [menuOpen, onToggleMenu]);
+    const handleMenuOpen = useCallback(() => onToggleMenu(!menuOpen), [menuOpen, onToggleMenu]);
 
     const getMenuIcon = useCallback(
         (isExpanded: boolean) => {
@@ -57,45 +63,33 @@ export default function DashboardHeader({ logo, title, menuOpen, onToggleMenu }:
     );
 
     return (
-        <AppBar color="inherit" position="absolute" sx={{ displayPrint: "none" }}>
-            <Toolbar sx={{ backgroundColor: "inherit", mx: { xs: -0.75, sm: -1 } }}>
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{
-                        flexWrap: "wrap",
-                        width: "100%"
-                    }}
-                >
+        <MuiAppBar>
+            <Toolbar sx={{ backgroundColor: "inherit", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                <Box sx={{ mr: 3 }}>{getMenuIcon(menuOpen)}</Box>
+                <Link to="/" style={{ textDecoration: "none" }}>
                     <Stack direction="row" alignItems="center">
-                        <Box sx={{ mr: 1 }}>{getMenuIcon(menuOpen)}</Box>
-                        <Link to="/" style={{ textDecoration: "none" }}>
-                            <Stack direction="row" alignItems="center">
-                                {logo ? <LogoContainer>{logo}</LogoContainer> : null}
-                                {title ? (
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            color: (theme.vars ?? theme).palette.primary.main,
-                                            fontWeight: "700",
-                                            ml: 1,
-                                            whiteSpace: "nowrap",
-                                            lineHeight: 1
-                                        }}
-                                    >
-                                        {title}
-                                    </Typography>
-                                ) : null}
-                            </Stack>
-                        </Link>
+                        {logo ? <LogoContainer>{logo}</LogoContainer> : null}
+                        {title ? (
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    color: (theme.vars ?? theme).palette.primary.main,
+                                    fontWeight: "700",
+                                    ml: 1,
+                                    whiteSpace: "nowrap",
+                                    lineHeight: 1
+                                }}
+                            >
+                                {title}
+                            </Typography>
+                        ) : null}
                     </Stack>
-                    <Stack direction="row" alignItems="center" spacing={1} sx={{ marginLeft: "auto" }}>
-                        <ThemeSwitcher />
-                        <Logout />
-                    </Stack>
+                </Link>
+                <Stack direction="row" alignItems="center" spacing={1} sx={{ marginLeft: "auto" }}>
+                    <ThemeSwitcher />
+                    <Logout />
                 </Stack>
             </Toolbar>
-        </AppBar>
+        </MuiAppBar>
     );
 }
