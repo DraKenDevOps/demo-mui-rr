@@ -219,7 +219,6 @@ export default function Sidebar({ expanded = true, setExpanded, disableCollapsib
     const getDrawerSharedSx = useCallback(
         (isTemporary: boolean) => {
             const drawerWidth = mini ? MINI_DRAWER_WIDTH : DRAWER_WIDTH;
-
             return {
                 displayPrint: "none",
                 width: drawerWidth,
